@@ -19,7 +19,10 @@ build-snap-udp:
 install-snap-udp:
     #/bin/bash
     sudo snap remove husarion-chatter
-    sudo snap install snap-udp/husarion-chatter_0.1_amd64.snap --dangerous
+    sudo snap install snap-udp/husarion-chatter_0.1_amd64.snap --dangerous --devmode
+
+logs-snap-udp:
+    journalctl -t husarion-chatter
 
 # run-snap-shell:
 #     sudo snap run --shell husarion-chatter
