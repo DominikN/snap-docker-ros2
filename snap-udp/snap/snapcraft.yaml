@@ -1,0 +1,61 @@
+name: husarion-chatter
+version: '0.1'
+license: Apache-2.0
+summary: The rosbot-xl teleop snap
+description: |
+  The husarion-chatter snap demonstrates essential ROS 2 communication 
+  through a talker-listener setup, ideal for educational and quick 
+  development purposes. This snap deploys two nodes for real-time 
+  message passing, showcasing the foundational concept of ROS 2 inter-node communication.
+
+  To launch the integrated talker and listener demonstration, use:
+    $ husarion-chatter.husarion-chatter
+
+  For launching only the talker node, which publishes messages, enter:
+    $ husarion-chatter.talker
+
+  To start the listener node, which subscribes to the talker's messages, use:
+    $ husarion-chatter.listener
+
+grade: stable
+confinement: strict
+base: core22
+
+contact: https://github.com/husarion/rosbot-xl-teleop-snap/issues
+issues: https://github.com/husarion/rosbot-xl-teleop-snap/issues
+website: https://husarion.com/
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  husarion-chatter:
+    command: ros2 launch $SNAP/usr/bin/talker_listener_launch.py
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+  talker:
+    command: ros2 run demo_nodes_cpp talker
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+  listener:
+    command: ros2 run demo_nodes_cpp listener
+    plugs: [network, network-bind]
+    extensions: [ros2-humble-ros-base]
+
+parts:
+  husarion-chatter:
+    plugin: nil
+    stage-packages:
+      - ros-humble-demo-nodes-cpp
+
+  # copy local scripts to the snap
+  local-files:
+    plugin: dump
+    source: snap/local/
+    organize:
+      '*.sh': usr/bin/
+      '*.py': usr/bin/
+      '*.yaml': usr/share/rosbot-xl-teleop/config/
