@@ -9,7 +9,7 @@ description: |
   message passing, showcasing the foundational concept of ROS 2 inter-node communication.
 
   To launch the integrated talker and listener demonstration, use:
-    $ husarion-chatter.husarion-chatter
+    $ husarion-chatter
 
   For launching only the talker node, which publishes messages, enter:
     $ husarion-chatter.talker
