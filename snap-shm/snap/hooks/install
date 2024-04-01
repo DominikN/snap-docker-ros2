@@ -1,0 +1,5 @@
+#!/bin/sh -e
+
+if ! snapctl is-connected ros-humble-ros-base; then
+  logger -t ${SNAP_NAME} "Plug 'ros-humble-ros-base' isn't connected, please run: snap connect $SNAP_NAME:ros-humble-ros-base ros-humble-ros-base"
+fi

@@ -20,6 +20,10 @@ sudo snap disconnect husarion-chatter:ros-humble-ros-base
 sudo snap connect husarion-chatter:ros-humble-ros-base ros-humble-ros-base:ros-humble-ros-base
 ```
 
+```bash
+sudo snap connect husarion-chatter-shm:shared-memory
+```
+
 ### logs from snap
 
 ```bash

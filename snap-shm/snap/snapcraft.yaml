@@ -1,21 +1,21 @@
-name: husarion-chatter
+name: husarion-chatter-shm
 version: '0.1'
 license: Apache-2.0
 summary: The ROS 2 chatter snap
 description: |
-  The husarion-chatter snap demonstrates essential ROS 2 communication 
+  The husarion-chatter-shm snap demonstrates essential ROS 2 communication 
   through a talker-listener setup, ideal for educational and quick 
   development purposes. This snap deploys two nodes for real-time 
   message passing, showcasing the foundational concept of ROS 2 inter-node communication.
 
   To launch the integrated talker and listener demonstration, use:
-    $ husarion-chatter
+    $ husarion-chatter-shm
 
   For launching only the talker node, which publishes messages, enter:
-    $ husarion-chatter.talker
+    $ husarion-chatter-shm.talker
 
   To start the listener node, which subscribes to the talker's messages, use:
-    $ husarion-chatter.listener
+    $ husarion-chatter-shm.listener
 
 grade: stable
 confinement: strict
@@ -29,24 +29,38 @@ architectures:
   - build-on: amd64
   - build-on: arm64
 
+slots:
+  shmem-slot:
+    interface: shared-memory
+    write: ['*'] # paths are relative to /dev/shm
+    private: false 
+plugs:
+  shmem-plug:
+    interface: shared-memory
+    shared-memory: shmem-slot
+    private: false
+
 apps:
-  husarion-chatter:
+  husarion-chatter-shm:
     command: ros2 launch $SNAP/usr/bin/talker_listener_launch.py
-    plugs: [network, network-bind]
+    plugs: [shmem-plug, shared-memory]
+    slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 
   talker:
-    command: ros2 run demo_nodes_cpp talker
-    plugs: [network, network-bind]
+    command: usr/bin/chatter_launcher.sh talker
+    plugs: [shmem-plug, shared-memory]
+    slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 
   listener:
-    command: ros2 run demo_nodes_cpp listener
-    plugs: [network, network-bind]
+    command: usr/bin/chatter_launcher.sh listener
+    plugs: [shmem-plug, shared-memory]
+    slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 
 parts:
-  husarion-chatter:
+  husarion-chatter-shm:
     plugin: nil
     stage-packages:
       - ros-humble-demo-nodes-cpp
@@ -58,4 +72,5 @@ parts:
     organize:
       '*.sh': usr/bin/
       '*.py': usr/bin/
-      '*.yaml': usr/share/husarion-chatter/config/
+      '*.yaml': usr/share/husarion-chatter-shm/config/
+      '*.xml': usr/share/husarion-chatter-shm/config/

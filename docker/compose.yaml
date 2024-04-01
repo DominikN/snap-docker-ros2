@@ -1,5 +1,13 @@
 name: snap-docker-chatter
 services:
-  chatter:
+  chatter-udp:
     build: .
+    command: ros2 run demo_nodes_cpp ${CHATTER_ROLE:-listener}
+
+  chatter-shm:
+    build: .
+    volumes:
+      - ./shm-only.xml:/shm-only.xml
+    environment:
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     command: ros2 run demo_nodes_cpp ${CHATTER_ROLE:-listener}
