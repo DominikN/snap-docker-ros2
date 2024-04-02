@@ -55,6 +55,8 @@ apps:
 
   talker:
     command: usr/bin/chatter_launcher.sh talker
+    # daemon: simple
+    # install-mode: enable #  a freshly installed daemon is started automatically
     plugs: [shm-plug, network-bind]
     extensions: [ros2-humble-ros-base]
 
