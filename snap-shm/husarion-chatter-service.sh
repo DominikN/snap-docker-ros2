@@ -35,16 +35,9 @@ EOF
 }
 
 remove_service() {
-    # Stop the service if it's running
     sudo systemctl stop "${SERVICE_NAME}"
-    
-    # Disable the service
     sudo systemctl disable "${SERVICE_NAME}"
-    
-    # Remove the service file
     sudo rm -f "${SERVICE_FILE}"
-    
-    # Reload systemd
     sudo systemctl daemon-reload
     
     echo "Service ${SERVICE_NAME} has been removed."
