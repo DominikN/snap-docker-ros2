@@ -13,4 +13,4 @@ services:
     environment:
       - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
       - USER
-    command: ros2 run demo_nodes_cpp ${CHATTER_ROLE:-talker}
+    command: ros2 run demo_nodes_cpp ${CHATTER_ROLE:-listener}
