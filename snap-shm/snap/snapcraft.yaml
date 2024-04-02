@@ -39,23 +39,28 @@ plugs:
     interface: shared-memory
     shared-memory: shmem-slot
     private: false
+  shmem2-plug:
+    interface: system-files
+    allow-auto-connection: true
+    write:
+      - /dev/shm
 
 apps:
   husarion-chatter-shm:
     command: ros2 launch $SNAP/usr/bin/talker_listener_launch.py
-    plugs: [shmem-plug, shared-memory]
+    plugs: [shmem-plug, shared-memory, network, network-bind, shmem2-plug]
     slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 
   talker:
     command: usr/bin/chatter_launcher.sh talker
-    plugs: [shmem-plug, shared-memory]
+    plugs: [shmem-plug, shared-memory, network, network-bind, shmem2-plug]
     slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 
   listener:
     command: usr/bin/chatter_launcher.sh listener
-    plugs: [shmem-plug, shared-memory]
+    plugs: [shmem-plug, shared-memory, network, network-bind, shmem2-plug]
     slots: [shmem-slot]
     extensions: [ros2-humble-ros-base]
 

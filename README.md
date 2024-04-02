@@ -22,6 +22,18 @@ sudo snap connect husarion-chatter:ros-humble-ros-base ros-humble-ros-base:ros-h
 
 ```bash
 sudo snap connect husarion-chatter-shm:shared-memory
+# sudo snap connect husarion-chatter-shm:shmem-plug :shared-memory
+```
+
+```bash
+$ snap connections husarion-chatter-shm 
+Interface                     Plug                                      Slot                                     Notes
+content[ros-humble-ros-base]  husarion-chatter-shm:ros-humble-ros-base  ros-humble-ros-base:ros-humble-ros-base  -
+network                       husarion-chatter-shm:network              :network                                 -
+network-bind                  husarion-chatter-shm:network-bind         :network-bind                            -
+shared-memory                 -                                         husarion-chatter-shm:shmem-slot          -
+shared-memory                 husarion-chatter-shm:shared-memory        -                                        -
+shared-memory                 husarion-chatter-shm:shmem-plug           :shared-memory                           manual
 ```
 
 ### logs from snap
