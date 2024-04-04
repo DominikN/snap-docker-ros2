@@ -29,28 +29,22 @@ architectures:
   - build-on: amd64
   - build-on: arm64
 
-# slots:
-#   shmem-slot:
-#     interface: shared-memory
-#     write: ['*'] # paths are relative to /dev/shm
-#     private: false 
-# plugs:
-#   shmem-plug:
-#     interface: shared-memory
-#     shared-memory: shmem-slot
-#     private: false
-
+slots:
+  shm-slot:
+    interface: shared-memory
+    write: ['*'] # paths are relative to /dev/shm
+    private: false 
 plugs:
   shm-plug:
-    interface: system-files
-    allow-auto-connection: true
-    write:
-      - /dev/shm
+    interface: shared-memory
+    shared-memory: shmem-slot
+    private: false
 
 apps:
   husarion-chatter-shm:
     command: ros2 launch $SNAP/usr/bin/talker_listener_launch.py
     plugs: [shm-plug, network-bind] # without `network-bind` there is an error `getifaddrs: Operation not permitted`
+    slots: [shm-slot]
     extensions: [ros2-humble-ros-base]
 
   talker:
@@ -58,11 +52,13 @@ apps:
     # daemon: simple
     # install-mode: enable #  a freshly installed daemon is started automatically
     plugs: [shm-plug, network-bind]
+    slots: [shm-slot]
     extensions: [ros2-humble-ros-base]
 
   listener:
     command: usr/bin/chatter_launcher.sh listener
     plugs: [shm-plug, network-bind]
+    slots: [shm-slot]
     extensions: [ros2-humble-ros-base]
 
 parts:
